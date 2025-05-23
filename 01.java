@@ -33,7 +33,7 @@ class Student {
         this.daysAttended = daysAttended;
     }
 
-    public String toString() {
+   public void display() {
         return "Student ID: " + studentId + ", Name: " + name + ", Days Attended: " + daysAttended;
     }
 	
