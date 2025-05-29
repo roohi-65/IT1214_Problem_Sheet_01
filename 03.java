@@ -27,10 +27,6 @@ class BankAccount {
         }
         balance -= amount;
     }
-
-    public String toString() {
-        return "Account Number: " + accountNumber + ", Holder: " + accountHolder + ", Balance: " + balance;
-    }
 }
 
 class Bank {
@@ -44,9 +40,10 @@ class Bank {
 
     public void addAccount(BankAccount account) {
         if (accountCount < 5) {
-            accounts[accountCount++] = account;
+            accounts[accountCount] = account;
+            accountCount++;
         } else {
-            System.out.println("Bank is full. Cannot add more accounts.");
+            System.out.println("Bank cannot handle more accounts.");
         }
     }
 
@@ -55,34 +52,38 @@ class Bank {
             if (accounts[i].getAccountNumber() == accountNumber) {
                 try {
                     accounts[i].withdraw(amount);
-                    System.out.println("Withdrawn " + amount + " from account " + accountNumber);
+                    return;
                 } catch (IllegalArgumentException e) {
-                    System.out.println("Error: " + e.getMessage());
+                    System.out.println(e.getMessage());
+                    return;
                 }
-                return;
             }
         }
-        System.out.println("Account number " + accountNumber + " not found.");
+        System.out.println("Account with number " + accountNumber + " not found.");
     }
 
     public void displayAllAccounts() {
         for (int i = 0; i < accountCount; i++) {
-            System.out.println(accounts[i]);
+            System.out.println("Account: "+accounts[i].getAccountNumber());
+            System.out.println("Holder: "+  accounts[i].getAccountHolder()); 
+            System.out.println("Balance: Rs."+accounts[i].getBalance());
         }
     }
 }
 
-class Main {
+ class Main {
     public static void main(String[] args) {
         Bank bank = new Bank();
-
+        
+        // Add accounts
         bank.addAccount(new BankAccount(1001, "Alice", 5000.0));
         bank.addAccount(new BankAccount(1002, "Bob", 3000.0));
-
-        bank.withdrawFromAccount(1001, 6000.0);
-
-        bank.withdrawFromAccount(1002, 1000.0);
-
+        
+        // Withdraw money
+        bank.withdrawFromAccount(1001, 6000.0); // Should cause exception
+        bank.withdrawFromAccount(1002, 1000.0); // Should succeed
+        
+        // Display all accounts
         bank.displayAllAccounts();
     }
 }
