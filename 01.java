@@ -13,16 +13,8 @@ class Student {
         return studentId;
     }
 
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getDaysAttended() {
@@ -32,14 +24,9 @@ class Student {
     public void setDaysAttended(int daysAttended) {
         this.daysAttended = daysAttended;
     }
-
-   public void display() {
-        return "Student ID: " + studentId + ", Name: " + name + ", Days Attended: " + daysAttended;
-    }
-	
 }
 
- class Classroom {
+class Classroom {
     private Student[] students;
     private int studentCount;
 
@@ -57,11 +44,10 @@ class Student {
         }
     }
 
-    public void updateAttendance(int studentId, int newDaysAttended) {
+    public void updateAttendance(int studentId, int days) {
         for (int i = 0; i < studentCount; i++) {
             if (students[i].getStudentId() == studentId) {
-                students[i].setDaysAttended(newDaysAttended);
-                System.out.println("Updated attendance for student ID " + studentId);
+                students[i].setDaysAttended(days);
                 return;
             }
         }
@@ -70,23 +56,27 @@ class Student {
 
     public void displayAllStudents() {
         for (int i = 0; i < studentCount; i++) {
-            System.out.println(students[i]);
+            System.out.println("Student ID: "+students[i].getStudentId()); 
+            System.out.println("Name: "+students[i].getName()); 
+            System.out.println("Days Attended: "+students[i].getDaysAttended());
         }
     }
 }
 
- class Main {
+class Main {
     public static void main(String[] args) {
         Classroom classroom = new Classroom();
-
+        
+        // Add students
         classroom.addStudent(new Student(101, "Alice Smith", 12));
         classroom.addStudent(new Student(102, "Bob Jones", 15));
         classroom.addStudent(new Student(103, "Carol Lee", 10));
-
+        
+        // Update attendance
         classroom.updateAttendance(102, 16);
-
-        classroom.updateAttendance(104, 14);
-
+        classroom.updateAttendance(104, 5); // Should show not found
+        
+        // Display all students
         classroom.displayAllStudents();
     }
 }
